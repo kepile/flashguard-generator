@@ -16,7 +16,10 @@ function CardAdmin(file){
 		console.log("card is " + card.cardType);
 		if (card.cardType === "Cloze") {
 		    var newCard = new Cloze(card.part1, card.part2, card.cardType);
-		    console.log("new cloze being created");
+		    console.log( "Cloze deleted portion is " + Cloze.prototype.ReturnDel());
+		    console.log( "Cloze partial sentence is " +Cloze.prototype.ReturnPart());
+		    console.log( "Cloze partial sentence is " + Cloze.prototype.ReturnFull());
+
 	} else
 	{
 		var newCard = new CreateCard(card.part1, card.part2, card.cardType);
