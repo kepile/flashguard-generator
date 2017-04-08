@@ -1,18 +1,41 @@
 // var usersearch = require("./Usersearch.js");
 var fs = require("fs");
+var ClozeCard = require("./clozeCard.js");
+var CreateCard = require("./createCard.js");
 
-function CardAdmin(){
-	this.file = "card.log";
+ 
+function CardAdmin(file){
+	this.file = file;
+	console.log(this.file);
 	this.newCard = function(card){
-		var newCard = new createCard.createCard(card);
-		//console.log(us);
-		
-		fs.appendFile(this.file, JSON.stringify(newCard) 
-			+ "\n", function(error){
-			if(error){ console.log("error appending to " + this.file)}
-		});
+		console.log("calling newCard" );
+		console.log("card is " + card.cardType);
+		if (card.cardType === "Cloze") {
+		    var newCard = new ClozeCard(card);
+		    console.log("new cloze being created");
+	} else
+	{
+		var newCard = new CreateCard(card);
+		    console.log("new basic being created");
 	}
-	this.getData = function(type){
+		console.log("New Card "+ newCard.type + newCard.part1 + newCard.part2 );
+		var valid = true;
+
+		if (newCard.type === "Cloze" && newCard.part1.indexOf(newCard.part2) < 0){
+			console.log("\n ***ERROR*** The phrase " + newCard.part2 + " does not appear in the sentence " + newCard.part1);
+			console.log("\n             The phrase " + newCard.part2 + " must be part of first entry for a Cloze Card");
+
+			valid = false;
+
+		}
+        if (valid) {
+			fs.appendFile(this.file, JSON.stringify(newCard) 
+				+ "\n", function(error){
+				if(error){ console.log("error appending to " + this.file)}
+			});
+		}
+	}
+	this.getData = function(){
 		fs.readFile(this.file, "utf8", function(error, data){
 			if(error){
 				console.log("error reading file");
@@ -23,13 +46,14 @@ function CardAdmin(){
 			// 		var dataObj = JSON.parse(dataArray[i]);
 			// 		if(typeof user === 'undefined' || user === dataObj.name){
 			// 			console.log(JSON.stringify(dataObj));
-			// 		}
 			// 	}
 			// }
 			//console.log(data);
 		});
 	}
 } 
+
+
 module.exports = CardAdmin;
 
 //exports.WeatherAdmin;

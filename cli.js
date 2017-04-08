@@ -1,212 +1,128 @@
 var inquirer = require('inquirer');
 var CardAdmin = require("./CardAdmin.js");
+var file = "temp.log";
 
-var MyAdmin = new CardAdmin();
+var myAdmin = new CardAdmin(file);
+var quit = false;
+
+
 function inputStart(){
-	console.log("\n");
-	inquirer.prompt([
-	      {
-	        name: "action",
-	        type: "list",
-	        message: "What would you like to do?",
-	        choices: ['Create Cards', 'Test myself', 'exit']
-	      }
-	    ]).then(function(answer) {
-	    	console.log(answer.action);
-	      
-	     switch(answer.action) {
-		    
-		    case 'Create Cards':
-		        CardType();
-		        break;
-		    case 'Test myself':
-		        testing();
-		        break;
-	        case 'Exit':
-		        
-		        break;
-		    default:
-		        console.log("An error has occurred.  Try again.");
-		        inputStart();
-		}
-
-	});
-}
-
-
-function CardType(){
-	console.log("\n _____________________________________________________________________________________");
-	      	inquirer.prompt([
-	      		 {
-	         		name: "cardType",
-			        type: "list",
-			        message: "How would you like to format the question?  \n    A Basic card has a question like 'What color is the sky?' \n      A Cloze card has '.... is the color of the sky.", 
-			        choices: ['Basic', 'Cloze', 'Both Basic and Cloze', 'Previous menu', 'Exit']
-			    }
-			]).then(function(answer) {
-			      console.log(answer);
-			    switch(answer.cardType) {
-				    case 'Basic':
-				        inputCard(answer.action);
-				        break;
-				     case 'Cloze':
-				        inputCard(answer.action, question);
-				        break;
-					 case 'Both Basic and Cloze':
-					     inputBoth('Both')
-			         case 'Previous menu':
-				        inputStart();
-				        break;
-				    case 'Exit':
-				       
-				        break;
-				    default:
-				        console.log("\n An error has occurred.  Try again. \n");
-				        inputCardType();
-				}
-			})
-	        
-	       
-}
-
-function inputCard(cardType, question){
-	console.log('\n Card Entry \n');
-	inquirer.prompt([
-		{	
-			name: "front",
-		    type: "input",
-		    message: "What should the front say? Please phrase it according to the type of card you selected. \n",
-		},
-		{   
-			name: "back",
-		    type: "input",
-		    message: "Please enter the anwer:",
-		},
-		{
-		    name: "action",
-	        type: "rawlist",
-	        message: "Would you like to ",
-	        choices: ['Save', 'Re-enter', 'Save then quit', 'Quit without Saving'] 
-
-		}
-	]).then(function(answer) {
-			 switch(answer.action) {
-			 	case '1':
-				    if (front === "" || back === ""){
-					    console.log('You must enter something for both the front and back of the card.');
-					    inputCard(); 
-				    } else
-				    {
-						var card = {
-								cardType: cardType,
-								front: answer.front,
-								back: answer.back
-							};
-						MyAdmin.newCard(card);
-					}
-				    
-				        break;
-		        case '2':
+	// for (prop in myAdmin) {
+	// console.log(prop + myAdmin[prop] );}
+	if (!quit){
+		console.log("\n");
+		inquirer.prompt([
+		      {
+		        name: "action",
+		        type: "list",
+		        message: "What would you like to do?",
+		        choices: ['Create Cards', 'Test myself', 'Exit']
+		      }
+		    ]).then(function(answer) {
+		    	console.log(answer.action);
+		      
+		     switch(answer.action) {
+			    
+			    case 'Create Cards':
 			        inputCard();
 			        break;
-			    case '3':
-				    if (front === "" || back === ""){
-					    console.log('You must enter something for both the front and back of the card.');
-					    inputCard(); 
-				    }
-
+			    case 'Test myself':
+			        testing();
 			        break;
-			    case '4':
-				    break;
-
+		        case 'Exit':
+			        // quit = true;
+			        break;
 			    default:
-			        console.log("\n An error has occurred.  Try again. \n");
-			        inputCardType();	
-			        break;	
-			   }
-		
+			        console.log("An error has occurred.  Try again.");
+			        inputStart();
+			}
 
-			});
-	        
+		});
+	}
 }
 
 
-function inputBoth(card, question){
-	console.log('\n Card Entry \n');
-	inquirer.prompt([
-		{	
-			name: "clozefront",
+
+
+function inputCard(){
+
+	console.log("\n _____________________________________________________________________________________");
+  	inquirer.prompt([
+  		 {
+     		name: "cardType",
+	        type: "list",
+	        message: " \n How would you like to format the question?  \n    A Basic card has a question like 'What color is the sky?' \n      A Cloze card has '.... is the color of the sky.", 
+	        choices: ['Basic', 'Cloze']
+	    },
+	    {	
+	        name: "front",
 		    type: "input",
-		    message: "What should the front of the cloze card say? Please phrase it 'is the color of the sky'. \n",
-		},
-				{	
-			name: "basicfront",
-		    type: "input",
-		    message: "What should the front of the basic card say? Please phrase it 'What is the color of the sky?'. \n",
+		    message: "\n What should first part say? Please phrase it according to the type of card you selected. \n    For the Basic card has a question like 'What color is the sky?' \n      For the Cloze card, please enter the entire sentence, eg. 'The color of the sky is blue.'",
 		},
 		{   
 			name: "back",
 		    type: "input",
-		    message: "Please enter the answer:",
+		    message: "\n Please enter the answer: For the Basic card example, it would be 'blue'. \n      For the Cloze card, the answer is the part that will be removed, eg. for example it is 'blue'",
 		},
 		{
 		    name: "action",
 	        type: "rawlist",
-	        message: "Would you like to ",
-	        choices: ['Save', 'Re-enter', 'Save then quit', 'Quit without Saving'] 
+	        message: "\n Would you like to ",
+	        choices: ['Save', 'Re-enter', 'Save then exit to main menu', 'Quit without Saving'] 
 
 		}
-	]).then(function(answer) {
-			 switch(answer.action) {
-			 	case '1':
-				    if (clozefront === "" || basicfront ==="" || back === ""){
-					    console.log('You must enter something for both the front and back of the card.');
-					    inputBoth(); 
-				    } else
-				    {
-						var card = {
-								cardType: both,
-								front: answer.clozefront,
-								front2: answer.basicfront,
-								back: answer.back
-							};
-
-						MyAdmin.newCard(card);
-				    }
+			]).then(function(answer) {
+			      console.log(answer.cardType + "at cardtype line 53");
+			    switch(answer.action) {
+				 	case 'Save':
+				 	   
+				 	    callAdmin(answer.front, answer.back, answer.cardType)
+						inputStart();				
+					    break;
+			        case 'Re-enter':
+				        inputCard();
 				        break;
-				    
-		        case '2':
-			        inputBoth();
-			        break;
-			    case '3':
-				    if (clozefront === "" || basicfront ==="" || back === ""){
-					    console.log('You must enter something for both the front and back of the card.');
-					    inputCard(); 
-				    } else
-				    {
-						var card = {
-								cardType: both,
-								front: answer.clozefront,
-								front2: answer.basicfront,
-								back: answer.back
-							};
+				    case 'Save then exit to main menu':
+						
+				 	    callAdmin(answer.front, answer.back, answer.cardType)
+				        break;
+				    case 'Quit without Saving':
+				        inputStart();
+					    break;
 
-						MyAdmin.newCard(card);
-				    }
-
-			        break;
-			    case '4':
-				    break;
-
-			    default:
-			        console.log("\n An error has occurred.  Try again. \n");
-			        inputCardType();	
-			    }	
-
+				    default:
+						console.log("\n An error has occurred.  Try again. \n");
+				        inputStart();	
+			        break;	
+			   }
 			});
 	        
+	       
+};
+
+
+
+
+
+function callAdmin(front, back, cardtype)
+     { console.log(cardtype + "at line 105");
+	 if (front === "" || back === ""){
+	    console.log('You must enter something for both the front and back of the card.');
+	    inputStart(); 
+    } else
+    {
+		var card = {
+				cardType: cardtype,
+				part1: front,
+				part2: back
+			};
+	 	console.log("card is " + card);
+
+		myAdmin.newCard(card);
+	}
 }
-// function inputCard()
+
+
 
 
 
