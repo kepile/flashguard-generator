@@ -1,3 +1,6 @@
 {"type":"Basic","part1":"what color","part2":"green"}
 {"type":"Cloze","part1":"The color of the grass is green.","part2":"green"}
 {"type":"Basic","part1":"what color is the sky?","part2":"blue"}
+{"type":"Basic","part1":"what time is it?","part2":"1:00"}
+{"type":"Cloze","part1":"Being tired sucks","part2":"sucks"}
+{"type":"Cloze","part1":"Buddy is my dog's name.","part2":"Buddy"}

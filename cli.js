@@ -3,13 +3,10 @@ var CardAdmin = require("./CardAdmin.js");
 var file = "temp.log";
 
 var myAdmin = new CardAdmin(file);
-var quit = false;
+
 
 
 function inputStart(){
-	// for (prop in myAdmin) {
-	// console.log(prop + myAdmin[prop] );}
-	if (!quit){
 		console.log("\n");
 		inquirer.prompt([
 		      {
@@ -38,7 +35,6 @@ function inputStart(){
 			}
 
 		});
-	}
 }
 
 
@@ -57,7 +53,7 @@ function inputCard(){
 	    {	
 	        name: "front",
 		    type: "input",
-		    message: "\n What should first part say? Please phrase it according to the type of card you selected. \n    For the Basic card has a question like 'What color is the sky?' \n      For the Cloze card, please enter the entire sentence, eg. 'The color of the sky is blue.'",
+		    message: "\n What should first part say? Please phrase it according to the type of card you selected. \n    The first part of the Basic card has a question like 'What color is the sky?' \n      For the Cloze card, please enter the entire sentence, eg. 'The color of the sky is blue.'",
 		},
 		{   
 			name: "back",
@@ -76,7 +72,7 @@ function inputCard(){
 			    switch(answer.action) {
 				 	case 'Save':
 				 	   
-				 	    callAdmin(answer.front, answer.back, answer.cardType)
+				 	    callAdmin(answer.front.trim(), answer.back.trim(), answer.cardType.trim())
 						inputStart();				
 					    break;
 			        case 'Re-enter':
@@ -84,7 +80,7 @@ function inputCard(){
 				        break;
 				    case 'Save then exit to main menu':
 						
-				 	    callAdmin(answer.front, answer.back, answer.cardType)
+				 	    callAdmin(answer.front.trim(), answer.back.trim(), answer.cardType.trim())
 				        break;
 				    case 'Quit without Saving':
 				        inputStart();

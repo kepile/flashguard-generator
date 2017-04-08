@@ -1,21 +1,25 @@
 // var usersearch = require("./Usersearch.js");
 var fs = require("fs");
-var ClozeCard = require("./clozeCard.js");
+var Cloze = require("./createCard.js");
 var CreateCard = require("./createCard.js");
 
  
 function CardAdmin(file){
 	this.file = file;
-	console.log(this.file);
+	console.log("creating prototype");
+	Cloze.prototype = new CreateCard();
+	console.log("BACK FROM creating prototype");
+	
+
 	this.newCard = function(card){
 		console.log("calling newCard" );
 		console.log("card is " + card.cardType);
 		if (card.cardType === "Cloze") {
-		    var newCard = new ClozeCard(card);
+		    var newCard = new Cloze(card.part1, card.part2, card.cardType);
 		    console.log("new cloze being created");
 	} else
 	{
-		var newCard = new CreateCard(card);
+		var newCard = new CreateCard(card.part1, card.part2, card.cardType);
 		    console.log("new basic being created");
 	}
 		console.log("New Card "+ newCard.type + newCard.part1 + newCard.part2 );
@@ -28,6 +32,7 @@ function CardAdmin(file){
 			valid = false;
 
 		}
+
         if (valid) {
 			fs.appendFile(this.file, JSON.stringify(newCard) 
 				+ "\n", function(error){
