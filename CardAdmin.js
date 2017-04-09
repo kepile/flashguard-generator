@@ -1,6 +1,6 @@
 // var usersearch = require("./Usersearch.js");
 var fs = require("fs");
-var Cloze = require("./createCard.js");
+var Cloze = require("./clozecard.js");
 var CreateCard = require("./createCard.js");
 
  
@@ -16,9 +16,9 @@ function CardAdmin(file){
 		console.log("card is " + card.cardType);
 		if (card.cardType === "Cloze") {
 		    var newCard = new Cloze(card.part1, card.part2, card.cardType);
-		    console.log( "Cloze deleted portion is " + Cloze.prototype.ReturnDel());
-		    console.log( "Cloze partial sentence is " +Cloze.prototype.ReturnPart());
-		    console.log( "Cloze partial sentence is " + Cloze.prototype.ReturnFull());
+		    // console.log( "Cloze deleted portion is " + Cloze.prototype.ReturnDel());
+		    // console.log( "Cloze partial sentence is " +Cloze.prototype.ReturnPart());
+		    // console.log( "Cloze partial sentence is " + Cloze.prototype.ReturnFull());
 
 	} else
 	{
