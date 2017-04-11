@@ -2,38 +2,27 @@
 var fs = require("fs");
 var Cloze = require("./clozecard.js");
 var CreateCard = require("./createCard.js");
+var AddCard = require("./createCard.js");
+
+
+var playgame = require("./playgame.js");
+
 
  
 function CardAdmin(file){
 	this.file = file;
-	console.log("creating prototype");
-	Cloze.prototype = new CreateCard();
-	console.log("BACK FROM creating prototype");
 	
 
-	this.newCard = function(card){
-		console.log("calling newCard" );
-		console.log("card is " + card.cardType);
-		if (card.cardType === "Cloze") {
-		    var newCard = new Cloze(card.part1, card.part2, card.cardType);
-		    // console.log( "Cloze deleted portion is " + Cloze.prototype.ReturnDel());
-		    // console.log( "Cloze partial sentence is " +Cloze.prototype.ReturnPart());
-		    // console.log( "Cloze partial sentence is " + Cloze.prototype.ReturnFull());
-
-	} else
-	{
-		var newCard = new CreateCard(card.part1, card.part2, card.cardType);
-		    console.log("new basic being created");
-	}
-		console.log("New Card "+ newCard.type + newCard.part1 + newCard.part2 );
+	this.writeCard = function(card){
+	    
+	    var newCard = AddCard(card.part1, card.part2, card.cartType);
+		
 		var valid = true;
 
 		if (newCard.type === "Cloze" && newCard.part1.indexOf(newCard.part2) < 0){
 			console.log("\n ***ERROR*** The phrase " + newCard.part2 + " does not appear in the sentence " + newCard.part1);
 			console.log("\n             The phrase " + newCard.part2 + " must be part of first entry for a Cloze Card");
-
 			valid = false;
-
 		}
 
         if (valid) {
@@ -43,26 +32,75 @@ function CardAdmin(file){
 			});
 		}
 	}
+
+
 	this.getData = function(){
 		fs.readFile(this.file, "utf8", function(error, data){
 			if(error){
-				console.log("error reading file");
-			}
+				console.log("\n *******Error reading file.  Please enter questions before you play.");
+			    return;
+		    }
 			var dataArray = data.split("\n");
-			// for(var i = 0; i < dataArray.length; i++){
-			// 	if(dataArray[i].length > 0){
-			// 		var dataObj = JSON.parse(dataArray[i]);
-			// 		if(typeof user === 'undefined' || user === dataObj.name){
-			// 			console.log(JSON.stringify(dataObj));
-			// 	}
-			// }
-			//console.log(data);
+			console.log(dataArray.length + "arr lgth line 41");
+			if(dataArray.length > 0) {		
+			   playgame(dataArray);
+			
+			} else
+			{
+				console.log("\n**********Please enter a list of questions before choosing to play game.")
+				return;
+			};
+						
 		});
-	}
-} 
+	};
+}
+
+
+
+
+// var inquirer = require('inquirer');
+
+
+// function playgame(questions){
+	
+// 	console.log(questions.length + "arr lgth line 67 playgame");
+	
+//     if (q < questions.length){
+//     	// console.log("q =" + q + " " + questions[q].length);
+// 	   	// if (questions[q].length > 0){	 
+// 	   	// var quest = JSON.parse(questions[q]);
+// 	   	// console.log(quest, null, 2);
+//     	// console.log("inside loop " + quest[q] + quest[q].length);
+// 	   	// if (quest.length > 0 && quest.type != undefined){	
+// 		    // var newquest = AddCard(quest.part1, quest.part2, quest.type);
+	 	   
+// 	  		inquirer.prompt([
+// 				 {	
+// 			        name: "front",
+// 				    // type: "input",
+// 				    // message: newquest.part1
+// 					message: "This is the question"
+// 				}
+// 			]).then(function(answer) {
+// 				console.log(q);
+
+// 				// console.log(newquest.type + " line 92 display");
+// 				// 	if (answer.trim().toLowerCase() === newquest.part2.toLowerCase()){
+// 				// 		console.log("THAT IS CORRECT!");
+// 				// 	} else
+// 				// 	{
+// 				// 		console.log("That is incorrect.")
+// 				// 	}
+// 					q++
+// 			      playgame();
+// 		      });
+// 		     // }; 
+		
+// 	}
+// 	console.log("GAME OVER.   Enter any key to continue");
+// 	return;
+// }
 
 
 module.exports = CardAdmin;
 
-//exports.WeatherAdmin;
-//module.exports = WeatherAdmin;

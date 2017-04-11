@@ -24,7 +24,8 @@ function inputStart(){
 			        inputCard();
 			        break;
 			    case 'Test myself':
-			        testing();
+				    myAdmin.getData();
+				   inputStart();
 			        break;
 		        case 'Exit':
 			        // quit = true;
@@ -114,13 +115,41 @@ function callAdmin(front, back, cardtype)
 			};
 	 	console.log("card is " + card);
 
-		myAdmin.newCard(card);
+		myAdmin.writeCard(card);
 	}
 }
 
 
 
-
+	// function displayquest(questions){
+	//     // if (!questions) {
+	//     var q = 0;
+	//     if (q< questions.length){
+	// 		if (questions[i].length >0 && questions[i].type != undefined){
+	// 			inquirer.prompt([
+	// 				 {	
+	// 			        name: "front",
+	// 				    type: "input",
+	// 				    message: "\n" + questions[i].part1,
+	// 				},
+	// 			]).then(function(answer) {
+	// 				console.log(questions.type + " line 136 display");
+	// 				if (answer.trim().toLowerCase() === questions[i].part2.toLowerCase()){
+	// 					console.log("THAT IS CORRECT!");
+	// 				} else
+	// 				{
+	// 					console.log("That is incorrect.")
+	// 				}
+			      
+	// 		      });
+	// 		     }; 
+	// 		q++;
+	// 	}
+	// 	consolelog("GAME OVER");
+	// 	inputStart();
+		
+				    
+	// }
 
 
 

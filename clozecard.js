@@ -14,14 +14,15 @@ Cloze.prototype.ReturnDel = function(){
 	    	return this.part2;
 	    };
 
-Cloze.prototype.ReturnPart = function (){
-			var l = this.part2.length;
-			var sub = "";
-			for (var i = 1; i<= l; i++){
-				sub += "_";
-			}
+Cloze.prototype.DispCloze = function (){
+	console.log("reached DispQuest cloze");
+			// var l = this.part2.length;
+			// var sub = "";
+			// for (var i = 1; i<= l; i++){
+			// 	sub += "_";
+			// }
 
-			return this.part1.replace(" " + this.part2 + " ", sub);
+			// return this.part1.replace(" " + this.part2 + " ", sub);
 		}
 
 Cloze.prototype.ReturnFull = function (){
